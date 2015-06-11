@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo Application</title>
+    <meta name="robots" content="noindex,nofollow">
+    
+    <!-- css -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- js (library) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.js"></script>
+    <script src="https://code.angularjs.org/1.3.15/angular-resource.min.js"></script>
+    
+    <!-- js (custom) -->
+    <script src="js/app.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/directives.js"></script>
+</head>
+
+<body ng-app="App"> <!-- ngDemoApp -->
+
+    <!-- easy example -->
+    <!-- 
+    <div ng-controller="TodoCtrl as todoCtrl">
+        <p>todoId: {{ todoCtrl.todoFromJAXRS.todoId }}</p>
+        <p>todoTitle: {{ todoCtrl.todoFromJAXRS.todoTitle }}</p>
+    </div>
+        
+    <ul ng-controller="TodoListCtrl as todolistCtrl">
+        <li ng-repeat="todo in todolistCtrl.todoListFromJAXRS">
+            {{ todo }}
+        </li>
+    </ul>
+    -->
+        
+
+    <div class="container" ng-controller="MainController as mainCtrl">
+        <div class="page-header">
+            <h1>ToDo</h1>
+	</div>
+
+        <form class="input-group input-group-lg" ng-controller="RegisterController as registerCtrl" ng-submit="registerCtrl.addTodo()">
+            <input type="text" required 
+                   placeholder="新しいToDoを入力" 
+                   class="form-control input-lg" ng-model="registerCtrl.newTitle">
+            <span class="input-group-btn">
+                <button type="submit" class="btn btn-default">追加</button>
+            </span>
+	</form>
+
+	<hr>
+
+	<div class="btn-toolbar" ng-controller="ToolbarController as toolbarCtrl">
+            
+            <div class="btn-group">
+                <button class="btn btn-default" ng-click="toolbarCtrl.listAll()">一覧を表示</button>
+            </div>
+            
+            <div class="btn-group">
+		<button class="btn btn-success" ng-click="toolbarCtrl.checkAll()">全て完了/未了</button>
+            </div>
+
+            <div class="btn-group">
+		<button class="btn btn-default" ng-class="{active: !mainCtrl.currentFilter}" ng-click="toolbarCtrl.changeFilter()">
+                    全部 <span class="badge">{{ toolbarCtrl.allCount }}</span>
+		</button>
+		<button class="btn btn-default" ng-class="{active: mainCtrl.currentFilter == toolbarCtrl.filter.remaining}"
+						ng-click="toolbarCtrl.changeFilter(toolbarCtrl.filter.remaining)">
+                    未了 <span class="badge">{{ toolbarCtrl.remainingCount }}</span>
+		</button>
+                <button class="btn btn-default" ng-class="{active: mainCtrl.currentFilter == toolbarCtrl.filter.done}"
+						ng-click="toolbarCtrl.changeFilter(toolbarCtrl.filter.done)">
+                    完了 <span class="badge">{{ toolbarCtrl.doneCount }}</span>
+		</button>
+            </div>
+
+            <div class="btn-group">
+		<button class="btn btn-danger" ng-click="toolbarCtrl.removeDoneTodo()">完了アイテムを全て削除</button>
+            </div>
+	</div>
+
+	<hr>
+
+        
+    	<ul class="list-unstyled" ng-controller="TodoListController">
+            
+            <li class="todo-item" ng-repeat="todo in todoList | filter:mainCtrl.currentFilter" 
+                ng-class="{done: todo.done, editing: todo == editing}">
+        	<form class="input-group input-group-lg" name="todoForm" ng-submit="doneEdit(todoForm, todo)">
+                    
+                    <label class="input-group-addon">
+            		<input type="checkbox" class="state" ng-model="todo.done" ng-click="doneCheckbox(todo)">
+                    </label>
+                    
+                    <p class="form-control input-lg todo-title"
+             			ng-hide="todo == editing"
+             			ng-dblclick="editTodo(todo)">{{ todo.title }}
+                    </p>
+
+                    <input type="text" required class="form-control input-lg"
+                		ng-show="todo == editing"
+                 		ng-model="todo.title"
+                 		my-select="todo == editing"
+                 		ng-blur="doneEdit(todoForm, todo)">
+                    
+                    <span class="input-group-btn del-btn" ng-if="todo != editing">
+            			<button type="reset"
+                    		class="btn btn-danger"
+                    		ng-click="removeTodo(todo)">削除</button>
+                    </span>
+        	</form>
+            </li>
+    	</ul>
+
+    </div>
+
+</body>
+</html>
