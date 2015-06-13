@@ -17,7 +17,7 @@
         <maven.compiler.target>1.7</maven.compiler.target>
         -->
     </properties>
-    <!-- this line was added to test Git/Jenkins connection and thus can be removed without any problems -->
+    <!-- ver2: this line was added to test Git/Jenkins connection and thus can be removed without any problems -->
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
