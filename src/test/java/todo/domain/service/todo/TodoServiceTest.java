@@ -1,7 +1,10 @@
 
 package todo.domain.service.todo;
 
+import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.embeddable.EJBContainer;
 import javax.naming.Context;
 import org.junit.After;
@@ -35,7 +38,11 @@ public class TodoServiceTest {
     
     @Before
     public void setUp() {
-        //container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+        // workaround https://getsatisfaction.com/javaee6/topics/yet_another_chapter_6_ejb_problem
+        //Map<String, Object> properties = new HashMap<String, Object>();
+        //properties.put(EJBContainer.MODULES, new File("target/classes"));
+        
+        //container = EJBContainer.createEJBContainer(properties); // javax.ejb.embeddable.
         //context = container.getContext();
     }
     

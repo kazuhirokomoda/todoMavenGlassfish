@@ -12,5 +12,4 @@
 hs_err_pid*
 
 target/
-src/main/setup/sun-resources.xml
 *.DS_Store
