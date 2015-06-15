@@ -132,7 +132,7 @@
                 <artifactId>maven-glassfish-plugin</artifactId>
                 <version>2.1</version>
                 <configuration>
-                    <glassfishDirectory>${GLASSFISH_HOME}</glassfishDirectory>
+                    <glassfishDirectory>/Applications/NetBeans/glassfish-4.1/glassfish</glassfishDirectory> <!-- ${GLASSFISH_HOME} -->
                     <user>${glassfish.user}</user>
                     <passwordFile>${basedir}/passwords/${glassfish.pwdfile}</passwordFile>
                     <echo>true</echo>
