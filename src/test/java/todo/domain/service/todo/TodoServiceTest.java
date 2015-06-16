@@ -39,16 +39,16 @@ public class TodoServiceTest {
     @Before
     public void setUp() {
         // workaround https://getsatisfaction.com/javaee6/topics/yet_another_chapter_6_ejb_problem
-        //Map<String, Object> properties = new HashMap<String, Object>();
-        //properties.put(EJBContainer.MODULES, new File("target/classes"));
+        Map<String, Object> properties = new HashMap<String, Object>();
+        properties.put(EJBContainer.MODULES, new File("target/classes"));
         
-        //container = EJBContainer.createEJBContainer(properties); // javax.ejb.embeddable.
-        //context = container.getContext();
+        container = EJBContainer.createEJBContainer(properties); // javax.ejb.embeddable.
+        context = container.getContext();
     }
     
     @After
     public void tearDown() {
-        //container.close();
+        container.close();
     }
 
     /**
@@ -58,10 +58,10 @@ public class TodoServiceTest {
     public void testFindAll() throws Exception {
         System.out.println("findAll");
                 
-        //TodoService instance = (TodoService)context.lookup("java:global/classes/TodoService");
-        //List<Todo> result = instance.findAll();
-        //System.out.println(result);
-        //assertNotNull(result);
+        TodoService instance = (TodoService)context.lookup("java:global/classes/TodoService");
+        List<Todo> result = instance.findAll();
+        System.out.println(result);
+        assertNotNull(result);
     }
 
     /**
