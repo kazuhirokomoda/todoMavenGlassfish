@@ -57,12 +57,14 @@
         
         <!-- To use EJBContainer.createEJBContainer() from Maven tests -->
         <!-- https://blogs.oracle.com/alexismp/entry/testing_ejb_3_1_s -->
+        <!--
         <dependency>
             <groupId>org.glassfish.extras</groupId> 
             <artifactId>glassfish-embedded-all</artifactId> 
-            <version>3.1.1</version> <!-- 3.0 -->
+            <version>3.1.1</version>
             <scope>test</scope>
         </dependency>
+        -->
         
     </dependencies>
 
