@@ -38,7 +38,8 @@ public class TodoServiceTest {
     @Before
     public void setUp() {
 
-        // workaround https://getsatisfaction.com/javaee6/topics/yet_another_chapter_6_ejb_problem
+        // https://getsatisfaction.com/javaee6/topics/yet_another_chapter_6_ejb_problem
+        // http://stackoverflow.com/questions/16145613/jpa-ejb-testing-with-embedded-glassfish-v3
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put(EJBContainer.MODULES, new File("target/classes")); // "target/classes" "build/jar" "/Users/kkomoda/.jenkins/jobs/todoMavenGlassfish_Build/workspace/target/classes"
         properties.put("org.glassfish.ejb.embedded.glassfish.installation.root", "/Applications/NetBeans/glassfish-4.1/glassfish"); // ./src/test/glassfish
@@ -46,7 +47,6 @@ public class TodoServiceTest {
         
         container = EJBContainer.createEJBContainer(properties); // javax.ejb.embeddable.
         context = container.getContext();
-
     }
     
     @After
@@ -60,12 +60,12 @@ public class TodoServiceTest {
     @Test
     public void testFindAll() throws Exception {
         System.out.println("findAll");
-        /*
+
         TodoService instance = (TodoService)context.lookup("java:global/classes/TodoService");
         List<Todo> result = instance.findAll();
-        System.out.println(result);
-        assertNotNull(result);
-        */
+        //System.out.println(result);
+        //assertNotNull(result);
+
     }
 
     /**
