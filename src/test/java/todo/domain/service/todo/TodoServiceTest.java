@@ -38,17 +38,19 @@ public class TodoServiceTest {
     
     @Before
     public void setUp() {
+        /*
         // workaround https://getsatisfaction.com/javaee6/topics/yet_another_chapter_6_ejb_problem
         Map<String, Object> properties = new HashMap<String, Object>();
-        properties.put(EJBContainer.MODULES, new File("/Users/kkomoda/.jenkins/jobs/todoMavenGlassfish_Build/workspace/target/classes")); // "target/classes" "build/jar"
+        properties.put(EJBContainer.MODULES, new File("target/classes")); // "target/classes" "build/jar" "/Users/kkomoda/.jenkins/jobs/todoMavenGlassfish_Build/workspace/target/classes"
         
         container = EJBContainer.createEJBContainer(properties); // javax.ejb.embeddable.
         context = container.getContext();
+        */
     }
     
     @After
     public void tearDown() {
-        container.close();
+        //container.close();
     }
 
     /**
