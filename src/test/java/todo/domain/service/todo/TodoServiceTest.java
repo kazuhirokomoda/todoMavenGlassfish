@@ -21,7 +21,6 @@ import todo.domain.model.Todo;
  */
 public class TodoServiceTest {
     
-    
     private EJBContainer container;
     private Context context;
     
@@ -39,10 +38,11 @@ public class TodoServiceTest {
     @Before
     public void setUp() {
 
-
         // workaround https://getsatisfaction.com/javaee6/topics/yet_another_chapter_6_ejb_problem
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put(EJBContainer.MODULES, new File("target/classes")); // "target/classes" "build/jar" "/Users/kkomoda/.jenkins/jobs/todoMavenGlassfish_Build/workspace/target/classes"
+        properties.put("org.glassfish.ejb.embedded.glassfish.installation.root", "./src/test/glassfish");
+        properties.put("org.glassfish.ejb.embedded.glassfish.configuration.file", "./src/test/glassfish/domains/domain1/config/domain.xml");
         
         container = EJBContainer.createEJBContainer(properties); // javax.ejb.embeddable.
         context = container.getContext();
