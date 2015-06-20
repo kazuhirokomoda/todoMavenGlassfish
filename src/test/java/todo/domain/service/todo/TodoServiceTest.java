@@ -38,6 +38,7 @@ public class TodoServiceTest {
     
     @Before
     public void setUp() {
+
         /*
         // workaround https://getsatisfaction.com/javaee6/topics/yet_another_chapter_6_ejb_problem
         Map<String, Object> properties = new HashMap<String, Object>();
