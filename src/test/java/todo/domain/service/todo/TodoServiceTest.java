@@ -41,8 +41,8 @@ public class TodoServiceTest {
         // workaround https://getsatisfaction.com/javaee6/topics/yet_another_chapter_6_ejb_problem
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put(EJBContainer.MODULES, new File("target/classes")); // "target/classes" "build/jar" "/Users/kkomoda/.jenkins/jobs/todoMavenGlassfish_Build/workspace/target/classes"
-        properties.put("org.glassfish.ejb.embedded.glassfish.installation.root", "./src/test/glassfish");
-        properties.put("org.glassfish.ejb.embedded.glassfish.configuration.file", "./src/test/glassfish/domains/domain1/config/domain.xml");
+        properties.put("org.glassfish.ejb.embedded.glassfish.installation.root", "/Applications/NetBeans/glassfish-4.1/glassfish"); // ./src/test/glassfish
+        properties.put("org.glassfish.ejb.embedded.glassfish.configuration.file", "/Applications/NetBeans/glassfish-4.1/glassfish/domains/domain1/config/domain.xml"); // ./src/test/glassfish/domains/domain1/config/domain.xml
         
         container = EJBContainer.createEJBContainer(properties); // javax.ejb.embeddable.
         context = container.getContext();
