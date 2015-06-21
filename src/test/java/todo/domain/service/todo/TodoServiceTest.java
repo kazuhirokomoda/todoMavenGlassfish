@@ -63,6 +63,7 @@ public class TodoServiceTest {
 
         TodoService instance = (TodoService)context.lookup("java:global/classes/TodoService");
         List<Todo> result = instance.findAll();
+
         //System.out.println(result);
         //assertNotNull(result);
 
