@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import todo.domain.common.exception.ResourceNotFoundException;
 import todo.domain.model.Todo;
 
 /**
@@ -37,7 +38,6 @@ public class TodoServiceTest {
     
     @Before
     public void setUp() {
-
         // https://getsatisfaction.com/javaee6/topics/yet_another_chapter_6_ejb_problem
         // http://stackoverflow.com/questions/16145613/jpa-ejb-testing-with-embedded-glassfish-v3
         Map<String, Object> properties = new HashMap<String, Object>();
@@ -60,9 +60,12 @@ public class TodoServiceTest {
     @Test
     public void testFindAll() throws Exception {
         System.out.println("findAll");
-
         TodoService instance = (TodoService)context.lookup("java:global/classes/TodoService");
+
+        // findAll
         List<Todo> result = instance.findAll();
+
+        // assert
         System.out.println(result);
         assertNotNull(result);
 
@@ -74,18 +77,19 @@ public class TodoServiceTest {
     @Test
     public void testFindOne() throws Exception {
         System.out.println("findOne");
+        TodoService instance = (TodoService)context.lookup("java:global/classes/TodoService");
         
-        /*
-        Integer todoId = null;
-        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
-        TodoService instance = (TodoService)container.getContext().lookup("java:global/classes/TodoService");
-        Todo expResult = null;
+        // findOne
+        Long todoId = 3L; // look inside DB and choose a number
         Todo result = instance.findOne(todoId);
-        assertEquals(expResult, result);
-        container.close();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-        */
+
+        // assert
+        System.out.println(result);
+        assertNotNull(result);
+        assertNotNull(result.getTodoId());
+        assertEquals(true, result.isFinished());
+        assertEquals("JUnit test", result.getTodoTitle());
+
     }
 
     /**
@@ -94,38 +98,23 @@ public class TodoServiceTest {
     @Test
     public void testCreate() throws Exception {
         System.out.println("create");
-        
-        /*
-        Todo todo = null;
-        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
-        TodoService instance = (TodoService)container.getContext().lookup("java:global/classes/TodoService");
-        Todo expResult = null;
-        Todo result = instance.create(todo);
-        assertEquals(expResult, result);
-        container.close();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-        */
-        
-        /*
         TodoService instance = (TodoService)context.lookup("java:global/classes/TodoService");
         
+        // create
         Todo todo = new Todo();
         todo.setTodoTitle("eat breakfast");
-        
         Todo result = instance.create(todo);
-
-        //Todo foundTodo = instance.findOne(4);
         
-        //assertNotNull(result);
+        // assert
+        System.out.println("created: " + result);
+        assertNotNull(result);
+        assertNotNull(result.getTodoId());
+        assertEquals(todo.getTodoTitle(), result.getTodoTitle());
+        assertEquals(false, result.isFinished());
+        assertEquals(1, result.getVersion());
         
-        //assertEquals(result, foundTodo);
-        //assertEquals(result.getTodoId(), 1);
-        assertEquals(result.getTodoTitle(), "eat breakfast");
-        //assertEquals(result.isFinished(), false);        
-        //assertEquals(result.getCreatedAt(), Date());
-        //assertEquals(result.getVersion(), 1);        
-        */
+        // delete
+        instance.delete(result.getTodoId());
     }
 
     /**
@@ -137,7 +126,6 @@ public class TodoServiceTest {
         System.out.println("finish");
         
         Integer todoId = null;
-        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
         TodoService instance = (TodoService)container.getContext().lookup("java:global/classes/TodoService");
         Todo expResult = null;
         Todo result = instance.finish(todoId);
@@ -145,7 +133,6 @@ public class TodoServiceTest {
         container.close();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
-        
     }
     */
 
@@ -155,18 +142,32 @@ public class TodoServiceTest {
     @Test
     public void testUpdate() throws Exception {
         System.out.println("update");
-        
-        /*
-        Integer todoId = null;
-        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
         TodoService instance = (TodoService)container.getContext().lookup("java:global/classes/TodoService");
-        Todo expResult = null;
-        Todo result = instance.finish(todoId);
-        assertEquals(expResult, result);
-        container.close();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-        */
+
+        // create
+        Todo todo = new Todo();
+        todo.setTodoTitle("eat breakfast");
+        Todo result = instance.create(todo);
+        assertNotNull(result);
+        assertNotNull(result.getTodoId());
+
+        // update
+        Long todoId = result.getTodoId();
+        System.out.println("update [" + todoId + "]");
+        Todo tmpTodo = instance.findOne(todoId);
+        tmpTodo.setTodoTitle("eat lunch");
+        tmpTodo.setFinished(true);
+        Todo updatedTodo = instance.update(tmpTodo);
+
+        // assert
+        assertEquals("eat lunch", updatedTodo.getTodoTitle());
+        assertEquals(true, updatedTodo.isFinished());
+        //assertEquals(2, result.getVersion());
+
+        // delete
+        //Long todoId = result.getTodoId();
+        System.out.println("delete [" + todoId + "]");
+        instance.delete(todoId);
     }
     
     /**
@@ -175,16 +176,27 @@ public class TodoServiceTest {
     @Test
     public void testDelete() throws Exception {
         System.out.println("delete");
-        
-        /*
-        Integer todoId = null;
-        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
-        TodoService instance = (TodoService)container.getContext().lookup("java:global/classes/TodoService");
+        TodoService instance = (TodoService)context.lookup("java:global/classes/TodoService");
+
+        // create
+        Todo todo = new Todo();
+        todo.setTodoTitle("eat breakfast");
+        Todo result = instance.create(todo);
+        assertNotNull(result);
+        assertNotNull(result.getTodoId());
+
+        // delete
+        Long todoId = result.getTodoId();
+        System.out.println("delete [" + todoId + "]");
         instance.delete(todoId);
-        container.close();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-        */
+
+        // findOne
+        try {
+            instance.findOne(todoId);
+            fail(todoId + " is not deleted!");
+        } catch (ResourceNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+
     }
-    
 }
